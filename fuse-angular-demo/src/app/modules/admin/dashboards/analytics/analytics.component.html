@@ -1,0 +1,29 @@
+<!-- <iframe src="https://app.powerbi.com/reportEmbed?reportId=d561bb98-c7e5-4535-9876-5b53a56ffc4e&autoAuth=true&ctid=b03e686d-b8c3-4e98-8091-91aec9e4c02f" frameborder="0" width="100%" height="100%"></iframe>
+ --><div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-10"><!-- Title -->
+        <div class="mt-4 md:mt-24 text-3xl md:text-6xl font-extrabold tracking-tight leading-7 sm:leading-10">
+            Explore Our Power BI Dashboards
+        </div>
+        
+        <!-- Boards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-8 md:mt-16">
+            <a *ngFor="let item of items"
+               [ngClass]="{'cursor-not-allowed opacity-50': item.disabled, 'hover:shadow-xl': !item.disabled}"
+               class="flex flex-col items-start w-56 p-6 rounded-lg shadow bg-card rounded-lg transition-shadow duration-150 ease-in-out"
+               (click)="openPowerBi(item.type)">
+                <!-- Image -->
+                <div class="relative">
+                    <img [src]="item.image" [alt]="item.title">
+                </div>
+                <!-- Title -->
+                <div class="mt-5 text-lg font-medium leading-5">{{ item.title }}</div>
+                <!-- Description -->
+                <div class="mt-0.5 line-clamp-2 text-secondary">{{ item.description }}</div>
+            </a>
+        </div>
+        
+        

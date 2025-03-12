@@ -1,0 +1,64 @@
+# Python Bytecode and Cache Files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environments
+venv/
+.venv/
+
+# Flask Specific Files
+instance/
+*.db
+*.sqlite3
+
+# Environment Variables and Secrets
+.env
+*.env.*
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# Compiled Files
+*.so
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# IDE and Editor Specific Files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage and Test Reports
+.coverage
+htmlcov/
+.tox/
+.nox/
+*.cover
+*.py,cover
+.cache
+
+# Distribution Files
+*.egg
+*.egg-info/
+dist/
+build/
+*.wheel
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary Files
+*.tmp
+*.temp

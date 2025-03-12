@@ -1,0 +1,334 @@
+<div *ngIf="showAlertBoolean" class="fixed top-20 right-4 z-50"
+    style="animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards;">
+    <fuse-alert [type]="Type" [appearance]="'outline'">
+        <span fuseAlertTitle>{{Title}}</span>
+        {{Msg}}
+    </fuse-alert>
+</div>
+
+
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+</style>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-1 pb-2 sm:pt-1 sm:pb-18 sm:px-5 bg-default dark:bg-transparent">
+        <div class="flex-1 min-w-0 flex sm:flex-row items-center justify-between">
+
+            <div class="mt-2">
+                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Add New Employee
+                </h2>
+                <p class="text-xs mb-2">
+                    Use this section to add a single employee's details. To add multiple employees in bulk, click the
+                    button in the top-right corner of the screen.
+                </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0">
+                <div class="file-upload-wrapper">
+                    <input type="file" id="fileInput" (change)="onFileChange($event)" hidden />
+                </div>
+                <button class="ml-3" (click)="triggerFileInput()" mat-flat-button [color]="'primary'">
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                    Upload File
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto -mt-16 p-1 px-2 sm:py-0 sm:px-5 overflow-y-auto" cdkScrollable>
+
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+
+            <!--    <p class="text-secondary mb-3">
+      Use this section to add a single employee's details. To add multiple employees in bulk, click the button in the top-right corner of the screen.
+    </p> -->
+
+            <div class="p-6 mb-4 rounded-lg shadow-lg bg-white">
+                <h2 class="text-lg font-semibold mb-3">Employee Profile</h2>
+
+                <div class="flex flex-col md:flex-row">
+                    <mat-form-field class="flex-auto md:pr-1 text-sm min-w-0" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Employee ID</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix [svgIcon]="'heroicons_solid:user-circle'">
+                        </mat-icon>
+                        <input matInput formControlName="Id_Empl" placeholder="Enter the employee's unique ID"
+                            class="text-sm leading-none px-1 -py-0 m-0 h-full">
+                        <mat-error class="text-sm leading-none"
+                            *ngIf="employeeForm.get('Id_Empl')?.hasError('required')">
+                            Employee ID is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="flex-auto md:pl-1 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Employee Name</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                        <input matInput formControlName="name_E" placeholder="Enter the employee's full name"
+                            class="leading-none px-1 -py-0 m-0 h-full">
+                        <mat-error *ngIf="employeeForm.get('name_E')?.hasError('required')">
+                            Employee Name is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+
+
+                <div class="flex flex-col md:flex-row">
+                    <!-- Company -->
+                    <mat-form-field class="flex-auto md:pr-1 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Birth Date</mat-label>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <input matInput formControlName="Birth_Date" [matDatepicker]="picker" placeholder="mm/dd/yyyy"
+                            class="leading-none px-1 -py-0 m-0 h-full" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="employeeForm.get('birthDate')?.hasError('required')">
+                            Birth Date is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="flex-auto md:px-1 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Gender</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix [svgIcon]="'heroicons_solid:user'"></mat-icon>
+                        <mat-select formControlName="Gender" placeholder="Select the employee's gender"
+                            class="leading-none px-1 -py-0 m-0 h-full">
+                            <mat-option value="male">Male</mat-option>
+                            <mat-option value="female">Female</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="employeeForm.get('Gender')?.hasError('required')">
+                            Gender is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+                   
+                </div>
+
+            </div>
+
+
+
+            <div class="p-6 mb-4 rounded-lg shadow-lg bg-white">
+                <h2 class="text-lg font-semibold mb-3">Position & Department</h2>
+
+
+                <div class="flex flex-col md:flex-row">
+                    <mat-form-field class="flex-auto md:pr-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Department</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                        <mat-select formControlName="ID_Department" placeholder="Select the employee's department"
+                            class="leading-none px-1 -py-0 m-0 h-full">
+                            <mat-option *ngFor="let department of departments" [value]="department.ID">
+                                {{ department.ID }}: {{ department.Nom_Department }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="employeeForm.get('ID_Department')?.hasError('required')">
+                            Department is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="flex-auto md:pl-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Cost Center</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                        <mat-select formControlName="Cost_Center" placeholder="Select the employee's cost center" class="leading-none px-1 -py-0 m-0 h-full">
+                            <mat-option *ngFor="let costcenter of costcenters" [value]="costcenter.idcc">
+                                {{ costcenter.idcc }}: {{ costcenter.ccDescription }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="employeeForm.get('Cost_Center')?.hasError('required')">
+                            Cost Center is required.
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex flex-col md:flex-row">
+
+                    <mat-form-field class="flex-auto md:pr-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Job</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                        <mat-select formControlName="ID_job" placeholder="Select the employee's job role" class="leading-none px-1 -py-0 m-0 h-full">
+                            <mat-option *ngFor="let job of jobs" [value]="job.ID">
+                                {{ job.ID }}: {{ job.job_description }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="employeeForm.get('ID_job')?.hasError('required')">
+                            Job is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+
+                    <mat-form-field class="flex-auto md:pl-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Local Position Title (if applicable)</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                        <input matInput formControlName="Local_Position"
+                            placeholder="Select the employee's local position title (if applicable)" class="leading-none px-1 -py-0 m-0 h-full">
+                        <mat-error *ngIf="employeeForm.get('Local_Position')?.hasError('required')">
+                            Local Position Title is required.
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex flex-col md:flex-row">
+                    <!-- Company -->
+                    <mat-form-field class="flex-auto md:pr-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Country / Region</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                        <mat-select formControlName="Plant" placeholder="Choose the employee's country or region" class="leading-none px-1 -py-0 m-0 h-full">
+                            <mat-option *ngFor="let plant of plants" [value]="plant.plant">
+                                {{ plant.plant }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="employeeForm.get('Plant')?.hasError('required')">
+                            Country / Region is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <!-- Scope -->
+                    <mat-form-field class="flex-auto md:px-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Scope</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:globe-alt'"></mat-icon>
+                        <mat-select formControlName="Scope" placeholder="Select the employee's scope" class="leading-none px-1 -py-0 m-0 h-full">
+                            <mat-option value="Corporate">Corporate</mat-option>
+                            <mat-option value="Plant/ADC">Plant/ADC</mat-option>
+                            <mat-option value="Regional/Country">Regional/Country</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="employeeForm.get('Scope')?.hasError('required')">
+                            Scope is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+
+                    <!-- HC Type -->
+                    <mat-form-field class="flex-auto md:pl-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">HC Type</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:clipboard-list'"></mat-icon>
+                        <mat-select formControlName="HC_Type" placeholder="Select the employee's HC type" class="leading-none px-1 -py-0 m-0 h-full">
+                            <mat-option value="DL">DL</mat-option>
+                            <mat-option value="IDL">IDL</mat-option>
+                            <mat-option value="STAFF">STAFF</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="employeeForm.get('HC_Type')?.hasError('required')">
+                            HC Type is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+
+            <div class="p-6 mb-4 rounded-lg shadow-lg bg-white">
+                <h2 class="text-lg font-semibold mb-3">Employment Timeline</h2>
+                <div class="flex flex-col md:flex-row">
+
+                    
+
+                    <mat-form-field class="flex-auto md:pr-1 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Hiring Date</mat-label>
+                        <mat-datepicker-toggle matSuffix [for]="hiringPicker"></mat-datepicker-toggle>
+                        <input matInput formControlName="Hiring_Date" [matDatepicker]="hiringPicker"
+                            placeholder="Select the employee's hiring date" class="leading-none px-1 -py-0 m-0 h-full"
+                            [min]="minDate" [max]="maxDate">
+                        <mat-datepicker #hiringPicker></mat-datepicker>
+                        <mat-error *ngIf="employeeForm.get('Hiring_Date')?.hasError('required')">
+                            Hiring Date is required.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex-auto md:pl-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Valuation Level</mat-label>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:clipboard-list'"></mat-icon>
+                        <input matInput formControlName="Valuation_Level"
+                            placeholder="Enter the employee's valuation level" class="leading-none px-1 -py-0 m-0 h-full"/>
+                        <mat-error *ngIf="employeeForm.get('Valuation_Level')?.hasError('required')">
+                            Valuation Level is required.
+                        </mat-error>
+                    </mat-form-field>
+
+
+
+                    <!-- Termination Date -->
+                    <mat-form-field class="flex-auto md:pl-3 text-sm" floatLabel="always" appearance="outline">
+                        <mat-label class="text-primary">Termination Date</mat-label>
+                        <mat-datepicker-toggle matSuffix [for]="terminationPicker"></mat-datepicker-toggle>
+                        <input matInput formControlName="Termination_Date" [matDatepicker]="terminationPicker" class="leading-none px-1 -py-0 m-0 h-full"
+                            placeholder="mm/dd/yyyy" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker #terminationPicker></mat-datepicker>
+                        <mat-error *ngIf="employeeForm.get('Termination_Date')?.hasError('required')">
+                            Termination Date is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="flex ">
+                    <mat-form-field class="fuse-mat-textarea flex-auto text-sm">
+                        <textarea matInput formControlName="Termination_Reason"
+                            placeholder="Enter the Termination Reason" class="leading-none px-1 h-full" rows="3"></textarea>
+                        <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                            [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+
+           
+
+
+        </form>
+        <!-- Inner Card 1 -->
+
+
+        <!-- Inner Card 2 -->
+
+    </div>
+    <div class="flex items-center justify-end border-t p-2 rounded-lg shadow-lg bg-white">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button class="px-6 ml-3" mat-flat-button color="primary" (click)="onSubmit()" type="submit">Save</button>
+    </div>

@@ -1,0 +1,100 @@
+    <!-- Add team member -->
+    <div class="w-full">
+        <mat-form-field
+            class="fuse-mat-no-subscript w-full"
+            [floatLabel]="'always'">
+            <mat-label> </mat-label>
+            <mat-icon
+                class="icon-size-5"
+                [svgIcon]="'heroicons_solid:user'"
+                matPrefix></mat-icon>
+            <input
+                matInput
+                [placeholder]="'Email address'">
+            <button
+                mat-icon-button
+                matSuffix>
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+            </button>
+        </mat-form-field>
+        <mat-label> </mat-label>
+    </div>
+   
+<!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full text-left text-sm font-light">
+            <thead class="border-b font-medium dark:border-neutral-500">
+              <tr>
+                <th scope="col" class="px-6 py-4">Email of the users</th>
+                <th scope="col" class="px-6 py-4">Projects</th>
+                <th scope="col" class="px-6 py-4">Plants</th>
+                <th scope="col" class="px-6 py-4">Expiration date</th>
+              </tr>
+            </thead>
+            <tbody>
+<!-- Assuming `distinctUsers` is an array of distinct users obtained from your component -->
+
+
+    <ng-container *ngFor="let u of access">
+      <tr class="border-b dark:border-neutral-500">
+        <!-- Cell for User -->
+        <td class="whitespace-nowrap px-6 py-4 font-medium">{{ u.user }}</td>
+          
+        <!-- Cell for Projects -->
+        <th class="whitespace-normal px-6 py-4 font-medium" (click)="makeited()">
+          <ng-container *ngIf="isContentEditable; else displayContent">
+            <mat-form-field>
+              <mat-select [(value)]="u.projects">
+                <mat-option *ngFor="let option of u.projects" [value]="option" aria-placeholder="option">
+                  {{ option }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #displayContent>
+            {{ u.projects }}
+          </ng-template>
+        </th>
+        
+
+                <!-- Cell for Projects -->
+                <th 
+                class="truncate break-normal md:break-all px-6 py-4 font-medium">                 
+                    <div *ngFor="let a of (u.showMore ? u.plants : u.plants.slice(0, 3))">
+                     * {{ a }}
+                    </div>
+                    <button *ngIf="u.plants.length > 3" (click)="toggleShowMore(u)" >
+                    <div class="text-blue-500" > {{ u.showMore ? 'Show Less' : 'Show ALL' }} </div>
+                    
+                    <!-- <div *ngFor="let a of getVisiblePlants(u.plants); let i = index">
+                      {{ a }}
+                    </div> -->
+                  </button>
+                </th>
+                
+                
+  
+        <!-- Cell for Dates -->
+        <td class="whitespace-nowrap px-6 py-4 font-medium">
+          {{ u.Expiration_Date }}
+        </td>
+      </tr>
+    </ng-container>
+
+  
+
+
+  
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+

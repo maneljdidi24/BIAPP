@@ -1,0 +1,13 @@
+<div class="dialog-content">
+    <mat-accordion>
+      <div class="font-medium tracking-tight text-secondary header">Select the columns you want to see in the report</div>
+      <mat-checkbox class="custom-checkbox" *ngFor="let column of columnVisibility" [(ngModel)]="column.checked"
+        (change)="toggleColumnVisibility(column.columnName)" [style.color]="column.checked ? '#6435FA' : 'gray'">
+        {{ column.columnName }}
+      </mat-checkbox>
+    </mat-accordion>
+    <div class="button-container">
+      <button mat-raised-button (click)="onSelect()" class="full-width-button">Save the changes</button>
+    </div>
+  </div>
+  

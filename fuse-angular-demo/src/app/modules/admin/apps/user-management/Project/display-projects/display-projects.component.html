@@ -1,0 +1,42 @@
+
+    <!-- Compose button -->
+    <div style="display: flex; justify-content: flex-end;">
+        <button
+            class="mx-6"
+            mat-flat-button
+            [color]="'primary'"
+            (click)="openComposeDialog()">
+            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            <span class="ml-2">Add Project</span>
+        </button>
+    </div>
+    
+    
+
+
+
+        <!-- Team members -->
+ <div class="flex flex-col mt-8 divide-y border-t border-b">
+    <div *ngFor="let p of projects">
+        <div class="flex flex-col sm:flex-row sm:items-center py-6">
+            <div class="ml-4">
+                <div class="font-medium">{{p.Code_Project}}</div>
+                <div class="text-secondary">{{p.Description}}</div>
+            </div>
+            <div class="flex items-center mt-4 sm:mt-0 sm:ml-auto">
+                <div class="order-2 sm:order-1 ml-4 sm:ml-0">
+                
+                </div>
+                <div class="order-1 sm:order-2 sm:ml-3">
+                    <button mat-icon-button (click)="openEditDialog(p.Code_Project)">
+                        <mat-icon class="text-hint" [svgIcon]="'heroicons_outline:pencil'"></mat-icon>
+                    </button>
+                    <button mat-icon-button
+                    (click)="openConfirmationDialog(p.Code_Project)">
+                        <mat-icon class="text-hint" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

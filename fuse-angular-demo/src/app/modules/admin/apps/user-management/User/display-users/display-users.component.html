@@ -1,0 +1,110 @@
+
+<div *ngIf="showAlertBoolean" class="fixed top-20 right-4 z-50"
+    style="animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards;">
+    <fuse-alert [type]="Type" [appearance]="'outline'">
+        <span fuseAlertTitle>{{Title}}</span>
+        {{Msg}}
+    </fuse-alert>
+</div>
+
+
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+</style>
+    <!-- Compose button -->
+    <div style="display: flex; justify-content: flex-end;">
+        <button
+            class="mx-6"
+            mat-flat-button
+            [color]="'primary'"
+            (click)="openComposeDialog()">
+            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            <span class="ml-2">Add New User</span>
+        </button>
+    </div>
+
+    <div class="flex flex-col mt-8 divide-y border-t border-b">
+        <ng-container *ngFor="let user of users;">
+            <div class="flex flex-col sm:flex-row sm:items-center py-6">
+                <div class="flex items-center">
+                    <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+                        <ng-container *ngIf="user.avatar">
+                            <img
+                                class="object-cover w-full h-full"
+                                [src]="user.avatar"
+                                alt="Contact avatar"/>
+                        </ng-container>
+                        <ng-container *ngIf="!user.avatar">
+                            <div class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+                                {{user.ID_User_Login.charAt(0)}}
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="ml-4">
+                        <div class="font-medium">{{user.ID_User_Login}}</div>
+                        <div class="text-secondary">{{user.Position}}</div>
+                    </div>
+                </div>
+                <div class="flex items-center mt-4 sm:mt-0 sm:ml-auto">
+                   <!--  <div class="order-2 sm:order-1 ml-4 sm:ml-0">
+                      <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-40">
+                        <mat-select
+                          [panelClass]="'w-72 min-w-72 max-w-72 h-auto max-h-none'"
+                          [value]="user.Level_"
+                          disableOptionCentering
+                          #roleSelect="matSelect"
+                          (selectionChange)="onRoleChange($event,user)">
+                          <mat-select-trigger class="text-md">
+                            <span>Role:</span>
+                            <span class="ml-1 font-medium">{{roleSelect.value | titlecase}}</span>
+                          </mat-select-trigger>
+                          <ng-container *ngFor="let role of roles">
+                            <mat-option
+                              class="h-auto py-4 leading-none"
+                              [value]="role.value">
+                              <div class="font-medium">{{role.label}}</div>
+                              <div class="mt-1.5 text-sm whitespace-normal leading-normal text-secondary">{{role.description}}</div>
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field>
+                    </div> -->
+                    <div class="order-1 sm:order-2 sm:ml-3">
+                      <button mat-icon-button (click)="onEditButtonClick(user.ID_User_Login)">
+                        <mat-icon class="text-hint" [svgIcon]="'heroicons_outline:pencil'"></mat-icon>
+                      </button>
+                    </div>
+                    
+                    <div class="order-1 sm:order-2 sm:ml-3">
+                      <button mat-icon-button (click)="onDeleteButtonClick(user.ID_User_Login)">
+                        <mat-icon class="text-hint" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  
+            </div>
+        </ng-container>
+    </div>

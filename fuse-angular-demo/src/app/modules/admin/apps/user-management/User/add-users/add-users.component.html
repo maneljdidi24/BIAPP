@@ -1,0 +1,227 @@
+<div *ngIf="showAlertBoolean" class="fixed top-20 right-4 z-50"
+    style="animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards;">
+    <fuse-alert [type]="Type" [appearance]="'outline'">
+        <span fuseAlertTitle>{{Title}}</span>
+        {{Msg}}
+    </fuse-alert>
+</div>
+
+
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+</style>
+
+
+<div class="flex flex-col max-w-240 md:min-w-160 -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">Add New Project</div>
+        <button
+            mat-icon-button
+            (click)="saveAndClose()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Compose form -->
+    <form
+        class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+        [formGroup]="composeForm">
+
+
+
+
+
+<mat-form-field>
+    <mat-label>Email user</mat-label>
+    <input matInput [formControlName]="'ID_User_Login'">
+</mat-form-field>
+
+
+
+
+
+
+<div class="flex flex-col  md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+    <mat-form-field class="flex-1">
+        <mat-label>Password</mat-label>
+        <input matInput [formControlName]="'Password'" type="password">
+    </mat-form-field>
+  
+    
+
+    
+<mat-form-field class="flex-1">
+    <mat-label>Projects that user can access</mat-label>
+    <mat-select [formControlName]="'projects'" multiple>
+      <div class="p-2">
+        <mat-checkbox [checked]="allSelected" (change)="toggleAllSelection()">Select All</mat-checkbox>
+      </div>
+      <mat-option *ngFor="let project of projects" [value]="project">{{ project.Description }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  </div>
+  <table class="min-w-full border-collapse border border-gray-300">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2 border border-gray-300"><label>Action</label></th>
+        <th class="px-4 py-2 border border-gray-300"><label>First Name</label></th>
+        <th class="px-4 py-2 border border-gray-300"><label>Last Name</label></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dynamic of dynamicArray; let i = index;" class="bg-white hover:bg-gray-50">
+        <td class="px-4 py-2 border border-gray-300 text-center">
+          <button class="text-red-500 hover:text-red-700" (click)="deleteRow(i)">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+        </td>
+        <td class="px-4 py-2 border border-gray-300">
+          <input
+            class="w-full px-2 py-1 border border-gray-300 rounded"
+            name="{{dynamic.firstName}}"
+            [(ngModel)]="dynamic.firstName"
+            type="text"
+          />
+        </td>
+        <td class="px-4 py-2 border border-gray-300">
+          <input
+            class="w-full px-2 py-1 border border-gray-300 rounded"
+            name="{{dynamic.lastName}}"
+            [(ngModel)]="dynamic.lastName"
+            type="text"
+          />
+        </td>
+      </tr>
+      <tr class="bg-gray-100">
+        <td class="px-4 py-2 text-center" colspan="2">
+          <button
+            class="text-green-500 hover:text-green-700"
+            (click)="addRow()"
+          >
+            <i class="fa fa-plus"></i> Add
+          </button>
+        </td>
+        <td class="px-4 py-2 text-center" colspan="2">
+          <button
+            class="text-blue-500 hover:text-blue-700"
+            (click)="getValues()"
+          >
+            <i class="fa fa-database"></i> Get data
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="mt-4 bg-gray-50 p-4 rounded border border-gray-200">
+    {{ dynamicArray | json }}
+  </div>
+
+<div class="flex flex-col  md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+    <mat-form-field class="flex-1">
+      <mat-label>Position of the user</mat-label>
+      <input matInput [formControlName]="'Position'">
+    </mat-form-field>
+  
+    <mat-form-field class="flex-1">
+      <mat-label>Type of the user</mat-label>
+      <mat-select [formControlName]="'Type'">
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="top_management">Top Management</mat-option>
+        <mat-option value="Sustainability">Sustainability</mat-option>
+        <mat-option value="HR">HR</mat-option>
+        <mat-option value="reports">reports</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+
+  <div class="flex flex-col  md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+    <mat-form-field class="flex-1">
+        <mat-label>Level Of Access of the user </mat-label>
+        <mat-select [formControlName]="'Level_'" (selectionChange)="onAccessLevelChange($event.value)">
+            <mat-option value="Corporate">Corporate</mat-option>
+            <mat-option value="Regional">Regional</mat-option>
+            <mat-option value="Local">Local</mat-option>
+        </mat-select>
+    </mat-form-field>
+      
+   
+    <mat-form-field class="flex-1" *ngIf="level === 'Regional'">
+      <mat-label>Select Region</mat-label>
+      <mat-select [formControlName]="'plant'">
+        <mat-option *ngFor="let region of regions" [value]="region.value">
+          {{ region.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field class="flex-1" *ngIf="level === 'Local'">
+      <mat-label>Select Local Area</mat-label>
+      <mat-select [formControlName]="'plant'" multiple>
+        <mat-option *ngFor="let area of localAreas" [value]="area.plant_Description">
+          {{ area.plant_Description }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    
+     
+  
+  </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
+            <div class="-ml-2">
+            </div>
+
+            <div class="flex items-center mt-4 sm:mt-0">
+                <!-- Discard -->
+                <button
+                    class="ml-auto sm:ml-0"
+                    mat-button
+                    (click)="discard()">
+                    Discard
+                </button>
+                <!-- Send -->
+                <button
+                    class="order-first sm:order-last"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="send()">
+                    Send
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+

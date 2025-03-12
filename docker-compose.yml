@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+
+  
+  frontend:
+    build: ./fuse-angular-demo  # Path to your Angular frontend Dockerfile
+    ports:
+      - "4200:4200"  # Map container port 80 to host port 80
+
+  backend:
+    build: ./flask angular 
+    ports:
+      - "5000:5000"        
+

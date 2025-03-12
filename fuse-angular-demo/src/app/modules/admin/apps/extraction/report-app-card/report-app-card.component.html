@@ -1,0 +1,10 @@
+<fuse-card class="flex flex-col items-center max-w-80 w-full p-8 filter-info mb-4 mr-4" [ngClass]="{'opacity-50': disabled}">
+  <div class="flex items-center justify-center p-5 rounded-full bg-primary-100 dark:bg-gray-600">
+    <mat-icon class="icon-size-10 text-primary-500 dark:text-primary-300" [svgIcon]="icon"></mat-icon>
+  </div>
+  <div class="text-2xl font-semibold leading-tight text-center mt-6">{{ title }}</div>
+  <div class="text-center text-secondary mt-3">{{ description }}</div>
+  <button class="px-6 mt-8" mat-flat-button [color]="'primary'" [disabled]="disabled" (click)="onClick()">
+    View {{ title }}
+  </button>
+</fuse-card>

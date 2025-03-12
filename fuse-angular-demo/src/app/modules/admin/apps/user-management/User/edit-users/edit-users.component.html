@@ -1,0 +1,174 @@
+
+
+<div class="flex flex-col max-w-240 md:min-w-160 -m-6">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">Edit User : {{userId}}</div>
+        <button
+            mat-icon-button
+            (click)="saveAndClose()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+    <form
+    class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+    [formGroup]="signInForm">
+
+
+
+
+
+<div class="flex flex-col  md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+
+        <!-- Password Input Field (shown when showPasswordInput is true) -->
+        <div class="flex items-center w-full flex-1" >
+          <mat-form-field *ngIf="showPasswordInput">
+            <mat-label>Password</mat-label>
+            <input id="Password" matInput type="password" formControlName="Password" placeholder="Enter your password">
+          </mat-form-field>
+      
+          <!-- "X" Icon to Hide Password Input and Return to Button -->
+
+          <div *ngIf="showPasswordInput" (click)="togglePasswordInput()" class="cursor-pointer" >
+            <svg fill="#C0C0C0" version="1.1" id="Capa_1" class="h-6 w-6 mr-5"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="-33 -33 396.00 396.00" xml:space="preserve">
+            <g id="SVGRepo_bgCarrier" stroke-width="0">
+                <rect  fill="#ffffff" class="h-6 w-6 mr-5"
+                    strokewidth="0"></rect>
+            </g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <g>
+                    <path
+                        d="M165,0C74.019,0,0,74.019,0,165s74.019,165,165,165c90.982,0,165-74.019,165-165S255.982,0,165,0z M165,300 c-74.439,0-135-60.561-135-135S90.561,30,165,30c74.439,0,135,60.561,135,135S239.439,300,165,300z">
+                    </path>
+                    <path
+                        d="M239.247,90.754c-5.857-5.858-15.355-5.858-21.213,0l-53.033,53.033l-53.033-53.033c-5.857-5.858-15.355-5.858-21.213,0 c-5.858,5.858-5.858,15.355,0,21.213L143.788,165l-53.033,53.033c-5.858,5.858-5.858,15.355,0,21.213 c2.929,2.929,6.768,4.394,10.606,4.394c3.839,0,7.678-1.464,10.606-4.394l53.033-53.033l53.033,53.033 c2.929,2.929,6.768,4.394,10.606,4.394c3.839,0,7.678-1.464,10.607-4.394c5.858-5.858,5.858-15.355,0-21.213L186.214,165 l53.033-53.033C245.105,106.109,245.105,96.612,239.247,90.754z">
+                    </path>
+                </g>
+            </g>
+        </svg>
+
+      </div>
+      <button mat-raised-button color="primary" *ngIf="!showPasswordInput" (click)="togglePasswordInput()">
+        <mat-icon class="mr-2" aria-hidden="false">lock</mat-icon> Change Password
+      </button>
+
+  <!-- Button with Icon (shown when showPasswordInput is false) -->
+ 
+    </div>
+      
+      
+
+      
+
+
+
+<mat-form-field class="flex-1">
+<mat-label>Projects that user can access</mat-label>
+<mat-select [formControlName]="'projects'" multiple>
+  <div class="p-2">
+    <mat-checkbox [checked]="allSelected" (change)="toggleAllSelection()">Select All</mat-checkbox>
+  </div>
+  <mat-option *ngFor="let project of projects" [value]="project">{{ project.Description }}
+  </mat-option>
+</mat-select>
+</mat-form-field>
+
+</div>
+
+
+<div class="flex flex-col  md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+    <mat-form-field class="flex-1">
+        <mat-label>Position</mat-label>
+        <input id="Position" matInput type="text" formControlName="Position" placeholder="Enter your Position">
+      </mat-form-field>
+      
+
+
+<mat-form-field class="flex-1">
+  <mat-label>Type of the user</mat-label>
+  <mat-select [formControlName]="'Type'">
+    <mat-option value="admin">Admin</mat-option>
+    <mat-option value="top_management">Top Management</mat-option>
+    <mat-option value="Sustainability">Sustainability</mat-option>
+    <mat-option value="HR">HR</mat-option>
+    <mat-option value="reports">reports</mat-option>
+  </mat-select>
+</mat-form-field>
+</div>
+
+
+<div class="flex flex-col  md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+<mat-form-field class="flex-1">
+    <mat-label>Level Of Access of the user </mat-label>
+    <mat-select [formControlName]="'Level_'" >
+        <mat-option value="Corporate">Corporate</mat-option>
+        <mat-option value="Regional">Regional</mat-option>
+        <mat-option value="Local">Local</mat-option>
+    </mat-select>
+</mat-form-field>
+  
+
+<mat-form-field class="flex-1" *ngIf="level === 'Regional'">
+  <mat-label>Select Region</mat-label>
+  <mat-select [formControlName]="'plant'">
+    <mat-option *ngFor="let region of regions" [value]="region.value">
+      {{ region.viewValue }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+<mat-form-field class="flex-1" *ngIf="level === 'Local'">
+  <mat-label>Select Local Area</mat-label>
+  <!-- Hidden input field -->
+
+  <mat-select [formControlName]="'plant'" multiple>
+    <mat-option *ngFor="let area of localAreas" [value]="area">
+      {{ area.plant_Description }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+ 
+
+</div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
+        <div class="-ml-2">
+        </div>
+
+        <div class="flex items-center mt-4 sm:mt-0">
+            <!-- Discard -->
+            <button
+                class="ml-auto sm:ml-0"
+                mat-button
+                (click)="discard()">
+                Discard
+            </button>
+            <!-- Send -->
+            <button
+                class="order-first sm:order-last"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="send()">
+                Send
+            </button>
+        </div>
+    </div>
+</form>
+
+    
+</div>
+
+<!-- <input id="password" matInput type="password" [formControlName]="'password'" #passwordField placeholder="Enter your password">
+</mat-form-field> -->
+

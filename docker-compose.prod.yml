@@ -1,0 +1,21 @@
+
+services:
+  frontend_prod:
+    build:  # Path to your Angular frontend Dockerfile
+      context: "./fuse-angular-demo"
+      args:
+        ENVIRONMENT: production
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "4200:4200"  # Adjust port if necessary for the production environment
+
+  backend_prod:
+    build:
+      context:  "./flask angular"
+      args:
+        ENVIRONMENT: production
+    environment:
+      - FLASK_ENV=production
+    ports:
+      - "5000:5000"  # Adjust port for the backend in production

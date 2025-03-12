@@ -1,0 +1,167 @@
+<div class="flex flex-col max-w-240 md:min-w-160 h-[90vh] -m-6 overflow-y-auto" cdkScrollable>
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+        <div class="text-lg font-medium">New Message</div>
+        <button
+            mat-icon-button
+            (click)="saveAndClose()"
+            [tabIndex]="-1">
+            <mat-icon
+                class="text-current"
+                [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- Form -->
+    <form class="flex flex-col mt-4 px-8 pt-1 bg-card">
+       
+<p class="text-lg font-medium">Filter by Plant and Region</p>
+<p class="text-secondary mb-6 hidden sm:block">
+    Apply filters for the plant and region to extract the relevant data.
+</p>
+
+
+       
+        <div class="flex flex-col md:flex-row">
+            <!-- Company -->
+            <mat-form-field class="flex-auto md:pr-3 text-sm" floatLabel="always" appearance="outline">
+                <mat-label class="text-primary">Country / Region</mat-label>
+                <mat-icon class="icon-size-3 h-4 w-4" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                
+                <!-- Set 'multiple' to allow multiple selections -->
+                <mat-select formControlName="Plant" placeholder="Choose the employee's country or region" class="leading-none px-1 -py-0 m-0 h-full" multiple>
+                  <mat-option *ngFor="let plant of plants" [value]="plant.plant">
+                    {{ plant.plant }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+
+
+            <!-- Scope -->
+            <mat-form-field class="flex-auto md:px-3 text-sm" floatLabel="always" appearance="outline">
+                <mat-label class="text-primary">Scope</mat-label>
+                <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                    [svgIcon]="'heroicons_solid:globe-alt'"></mat-icon>
+                <mat-select formControlName="Scope" placeholder="Select the employee's scope" class="leading-none px-1 -py-0 m-0 h-full">
+                    <mat-option value="Corporate">Corporate</mat-option>
+                    <mat-option value="Plant/ADC">Plant/ADC</mat-option>
+                    <mat-option value="Regional/Country">Regional/Country</mat-option>
+                </mat-select>
+   
+            </mat-form-field>
+
+
+
+            <!-- HC Type -->
+            <mat-form-field class="flex-auto md:pl-3 text-sm" floatLabel="always" appearance="outline">
+                <mat-label class="text-primary">HC Type</mat-label>
+                <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                    [svgIcon]="'heroicons_solid:clipboard-list'"></mat-icon>
+                <mat-select formControlName="HC_Type" placeholder="Select the employee's HC type" class="leading-none px-1 -py-0 m-0 h-full">
+                    <mat-option value="DL">DL</mat-option>
+                    <mat-option value="IDL">IDL</mat-option>
+                    <mat-option value="STAFF">STAFF</mat-option>
+                </mat-select>
+              
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-col md:flex-row">
+            <mat-form-field class="flex-auto md:pr-3 text-sm" floatLabel="always" appearance="outline">
+                <mat-label class="text-primary">Department</mat-label>
+                <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                    [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                <mat-select formControlName="ID_Department" placeholder="Select the employee's department"
+                    class="leading-none px-1 -py-0 m-0 h-full">
+                    <mat-option *ngFor="let department of departments" [value]="department.ID">
+                        {{ department.ID }}: {{ department.Nom_Department }}
+                    </mat-option>
+                </mat-select>
+            
+            </mat-form-field>
+
+
+            <mat-form-field class="flex-auto md:pl-3 text-sm" floatLabel="always" appearance="outline">
+                <mat-label class="text-primary">Cost Center</mat-label>
+                <mat-icon class="icon-size-3 h-4 w-4" matPrefix
+                    [svgIcon]="'heroicons_solid:office-building'"></mat-icon>
+                <mat-select formControlName="Cost_Center" placeholder="Select the employee's cost center" class="leading-none px-1 -py-0 m-0 h-full">
+                    <mat-option *ngFor="let costcenter of costcenters" [value]="costcenter.idcc">
+                        {{ costcenter.idcc }}: {{ costcenter.ccDescription }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+   
+        
+        <!-- Add other fields and content -->
+
+        <mat-divider class="mt-2 mb-2"></mat-divider>
+
+        <p class="text-lg font-medium">Select Columns to Display</p>
+        <p class="text-secondary mb-6 hidden sm:block">
+            Choose the specific columns you want to include in the displayed data.
+        </p>
+        <div class="flex flex-col sm:flex-row">
+            <!-- First Column (visible only on larger screens) -->
+            <div class="flex flex-col flex-1 sm:block hidden">
+              <div *ngFor="let item of checkboxItems.slice(0, 4)" class="mb-2">
+                <mat-checkbox [checked]="item.checked" [color]="'primary'">
+                  {{ item.label }}
+                </mat-checkbox>
+              </div>
+            </div>
+          
+            <!-- Divider (visible only on larger screens) -->
+            <div class="h-full w-px bg-gray-300 mx-4"></div>
+          
+            <!-- Second Column (visible on all screens, but scrollable on smaller screens) -->
+            <div class="flex flex-col flex-1 sm:overflow-visible sm:h-auto h-40 overflow-y-auto sm:overflow-hidden sm:block hidden">
+              <div *ngFor="let item of checkboxItems.slice(5,9)" class="mb-2">
+                <mat-checkbox [checked]="item.checked" [color]="'primary'">
+                  {{ item.label }}
+                </mat-checkbox>
+              </div>
+            </div>
+
+            <!-- Divider (visible only on larger screens) -->
+            <div class="h-full w-px bg-gray-300 mx-4"></div>
+          
+            <!-- Second Column (visible on all screens, but scrollable on smaller screens) -->
+            <div class="flex flex-col flex-1 sm:overflow-visible sm:h-auto h-40 overflow-y-auto sm:overflow-hidden sm:block hidden">
+              <div *ngFor="let item of checkboxItems.slice(10,14)" class="mb-2">
+                <mat-checkbox [checked]="item.checked" [color]="'primary'">
+                  {{ item.label }}
+                </mat-checkbox>
+              </div>
+            </div>
+          
+            <!-- On small screens, show all checkboxes in a single scrollable column -->
+            <div class="sm:hidden overflow-y-auto" style="max-height: 120px;"> <!-- Adjust max-height as needed -->
+              <div *ngFor="let item of checkboxItems" class="mb-2">
+                <mat-checkbox [checked]="item.checked" [color]="'primary'">
+                  {{ item.label }}
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+          
+
+        <!-- Footer -->
+        <div class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700">
+            <button mat-button (click)="discard()">Cancel</button>
+            <button
+                class="px-6 ml-3"
+                mat-flat-button
+                [color]="'primary'" (click)="send()">
+                Save
+            </button>
+        </div>
+    </form>
+</div>

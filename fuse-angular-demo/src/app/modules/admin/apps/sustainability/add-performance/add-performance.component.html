@@ -1,0 +1,240 @@
+<div *ngIf="showAlertBoolean" class="fixed top-20 right-4 z-50"
+    style="animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards;">
+    <fuse-alert [type]="Type" [appearance]="'outline'">
+        <span fuseAlertTitle>{{Title}}</span>
+        {{Msg}}
+    </fuse-alert>
+</div>
+
+
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+</style>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-10 sm:pt-5 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a href="/sustainability/main" class="whitespace-nowrap text-primary-500">Performance</a>
+                      </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                        <span class="ml-1 text-secondary">Enter Data</span>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap" *ngIf="month">
+                        <mat-icon
+                            class="icon-size-5 text-green-500"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                        <span class="ml-1 text-secondary text-green-500">{{ month }}</span>
+                    </div>
+                    
+                </div>
+                <div class="flex sm:hidden">
+                    <a
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'./..'">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2 p-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 flex items-center">
+                    <img src='../../../../../../assets/images/logo/planet-earth.png' alt="Metal Purchasing Dashboards"
+                        class="w-12 h-12 mr-2">Enter performance data
+                </h2>
+            </div>
+
+
+
+            <form class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-8 xl:grid-cols-8 sm:gap-1 gap-0">
+
+            
+                <!-- Topic Field (1/2 width) -->
+                <div class="col-span-1 lg:col-span-3">
+                    <mat-form-field class="w-full">
+                        <mat-select [placeholder]="'Topics'" (selectionChange)="onTopicChange($event)" [disabled]="displaySaveButton">
+                            <!-- Dynamically generated topics from API -->
+                            <mat-option *ngFor="let topic of topics" [value]="topic.ID_Topic">{{ topic.Name_T }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+    <div class="col-span-1 lg:col-span-1">
+        <mat-form-field class="w-full">
+            <mat-select [placeholder]="'Plant'" (selectionChange)="onPlantChange($event)" [disabled]="displaySaveButton">
+                <mat-option *ngFor="let plant of plants" [value]="plant">{{ plant.plant_Description }}</mat-option>
+                <!-- Add other years as needed -->
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+
+    <div class="col-span-1 lg:col-span-2">
+        <mat-form-field class="w-full">
+          <mat-select 
+            [placeholder]="'Month'" 
+            (selectionChange)="onMonthChange($event)"
+            [disabled]="displaySaveButton">  <!-- Disable if var is true -->
+              <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-span-1 lg:col-span-1">
+        <mat-form-field class="w-full">
+          <mat-select 
+            [placeholder]="'Year'" 
+            (selectionChange)="onYearChange($event)"
+            [disabled]="displaySaveButton">  <!-- Disable if var is true -->
+              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+      
+    <div class="p-1">
+    <button mat-stroked-button  (click)="loaddata()" class="text-white bg-primary-500" >
+        <mat-icon class="icon-size-5 mr-2 text-white" [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
+        load data
+    </button>
+    
+</div>
+
+<!--    
+    <div class="col-span-1 lg:col-span-1">
+        <mat-form-field class="w-full">
+            <mat-select [placeholder]="'Year'" (selectionChange)="onYearChange($event)">
+                <mat-option value="2023">2023</mat-option>
+                <mat-option value="2024">2024</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div> -->
+
+</form>
+        </div>
+
+    </div>
+
+<div
+    class="flex-auto -mt-16 p-6 sm:p-5 rounded-t-2xl shadow overflow-y-auto bg-card" *ngIf="loaded"
+    cdkScrollable>
+
+            <div class="absolute px-4 py-10 right-10 mb-4 p-4 flex flex-col" *ngIf="displaySaveButton"> <!-- Fixed positioning for the buttons and column layout -->
+                <button mat-stroked-button (click)="saveupdate()" class="text-green-700 mb-2"> <!-- Added margin-bottom -->
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:download'"></mat-icon>
+                    Submit
+                </button>
+                <button mat-stroked-button (click)="onCancelDataChange()" class="text-red-600 mb-2"> <!-- Added margin-bottom -->
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:x-circle'"></mat-icon>
+                    Cancel 
+                </button>                  
+            </div>
+            
+
+
+   
+            <form >
+                <div class="relative mb-4">
+                  <!-- Table for topics other than 14 -->
+                  <table id="example" class="table-auto w-5/6" >
+                    <thead *ngIf="!displayfordescription">
+                      <tr>
+                        <th class="absolute px-4 py-2 font-medium text-primary-800 whitespace-nowrap dark:text-white dark:bg-transparent sticky left-0 bg-white">
+                          Element
+                        </th>
+                        <th class="absolute px-4 py-2 font-medium text-primary-800 whitespace-nowrap dark:text-white dark:bg-transparent sticky left-0 bg-white">
+                            Unit
+                          </th>
+                        <th class="rounded-tl-lg rounded-tr-lg px-4 py-1 font-medium text-primary-800 whitespace-nowrap dark:text-white">
+                          Data
+                        </th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody class="max-h-64 overflow-y-auto">
+                      <ng-container *ngFor="let element of elementsOfTopic">
+                        <tr *ngIf="!displayfordescription">
+                          <td class="border px-4 py-1 font-medium bg-gray-100 whitespace-normal break-words sticky left-0 dark:bg-transparent border-b border-t border-l border-r">
+                            {{element.Name_Element}}
+                          </td>
+                          <td class="border text-center px-4 py-1 font-medium bg-gray-100 whitespace-normal break-words sticky left-0 dark:bg-transparent border-b border-t border-l border-r">
+                            {{element.Unit}}
+                          </td>
+                          <td class="border px-4 py-2 font-medium whitespace-normal break-words sticky left-0 border-b border-t border-l border-r" [ngClass]="{'bg-yellow-200': element.changed}">
+                            <input 
+                              (input)="onInputChange(element.ID_Element)" 
+                              (blur)="onUpadetDataChange($event, element.ID_Element)" 
+                              type="text" 
+                              [(ngModel)]="element.initialValue" 
+                              [ngModelOptions]="{standalone: true}" 
+                              placeholder="Enter data"
+                              class="text-center w-full h-full px-2 py-1" 
+                            />
+                          </td>
+                          
+                        </tr>
+                        <div  *ngIf="displayfordescription" class="pb-8 p-4">
+
+                            {{element.Name_Element}}
+                                <textarea [ngClass]="{'bg-yellow-200': element.changed}"
+                                (input)="onInputChange(element.ID_Element)" 
+                                (blur)="onUpadetDataChange($event, element.ID_Element)" 
+                                [(ngModel)]="element.initialValue" 
+                                [ngModelOptions]="{standalone: true}" 
+                                class="border rounded  w-4/5 h-32 resize-none p-4"
+                                placeholder="Enter data"
+                              >
+                              </textarea>
+                              </div>
+                          
+                      </ng-container>
+                    </tbody>
+                  </table>
+              
+                  
+                </div>
+              </form>
+              <!-- Table for topic == 14 -->
+              
+   
+
+</div>
+
+
+
+
+
+
+
+</div>

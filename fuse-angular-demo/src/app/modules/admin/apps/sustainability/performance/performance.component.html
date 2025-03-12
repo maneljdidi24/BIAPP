@@ -1,0 +1,277 @@
+<div *ngIf="showAlertBoolean" class="fixed top-20 right-4 z-50"
+    style="animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards;">
+    <fuse-alert [type]="Type" [appearance]="'outline'">
+        <span fuseAlertTitle>{{Title}}</span>
+        {{Msg}}
+    </fuse-alert>
+</div>
+
+
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+</style>
+
+<!-- 
+<div class="flex flex-col flex-auto min-w-0"> -->
+    <div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+        
+        <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-2 sm:px-10 border-b bg-card dark:bg-transparent"
+        style="background-image: url('../../../../../../assets/images/logo/freepik-export-202406201418526R2A (1).png'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+        
+        <!-- Left side with breadcrumbs and title -->
+        <div class="flex-1 min-w-0 sm:w-1/2 lg:w-1/2">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500" [routerLink]="['../../']">Performance</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-primary-500">Sustainability: {{ getSlicedPlantValue() }}</a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2 overflow-hidden text-ellipsis">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 flex items-center">
+                    <img src='../../../../../../assets/images/logo/planet-earth.png' alt="Metal Purchasing Dashboards"
+                         class="w-10 h-10 mr-2"> Sustainability: Performance
+                </h2>
+            </div>
+        </div>
+
+
+        <form class="flex-1 flex-wrap" [formGroup]="reportForm" (submit)="onSubmit()">
+            <div class="flex flex-col md:flex-row lg:flex-row lg:space-x-2">
+                  
+                  <!-- Region Selection - 1/3 width on large screens, full width on smaller screens -->
+                  <mat-form-field class="lg:w-1/3 w-full flex-auto">
+                  <mat-select formControlName="plant" placeholder="Region" required (selectionChange)="plantchangedfunction()">
+                    <mat-option *ngFor="let plant of plants" [value]="'%' + plant.plant + '%'">
+                        {{ plant.plant_Description }}
+                    </mat-option>
+                </mat-select>
+                <mat-icon class="icon-size-1" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                  </mat-form-field>
+                  
+                  <!-- Date Range Picker - 2/3 width on large screens, full width on smaller screens -->
+                  <mat-form-field 
+                  class="lg:w-1/3 w-full flex-auto relative group" [ngClass]="{'bg-gray-200 cursor-not-allowed': !plantchanged}">
+                  <mat-select [formControl]="monthControl" placeholder="Months" required multiple [disabled]="!plantchanged">
+                    <mat-option *ngFor="let month of updatedMonth" [value]="month">
+                        <div class="flex items-center justify-between cursor-pointer">
+                            <span>{{ month }}</span>
+                        </div>
+                    </mat-option>
+                </mat-select>
+                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+
+                  </mat-form-field>
+
+                  <mat-form-field 
+                  class="lg:w-1/3 w-full flex-auto relative group" [ngClass]="{'bg-gray-200 cursor-not-allowed': !plantchanged}">
+                  <mat-select [formControl]="yearControl" placeholder="Years" required multiple [disabled]="!plantchanged">
+                    <mat-option *ngFor="let year of updatedYear" [value]="year">
+                        <div class="flex items-center justify-between cursor-pointer">
+                            <span>{{ year }}</span>
+                        </div>
+                    </mat-option>
+                </mat-select>
+                <mat-icon class="icon-size-1" matPrefix [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
+                  </mat-form-field>
+
+            </div>
+     
+ 
+                <div class="flex justify-end">
+                    <button type="submit"
+                            class="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        Display Data
+                    </button>
+                </div>
+
+
+
+
+        </form>
+
+    </div>
+
+            <!-- Header and Filters Container -->
+          
+       
+        
+        
+    <div
+        class="flex-auto overflow-y-auto"
+        cdkScrollable *ngIf="DisplayData" >
+
+        <!-- CONTENT GOES HERE -->
+      
+            <div class="flex-auto p-6 sm:p-10">
+                <div class="prose prose-sm max-w-full max-w-5xl">
+                    <ng-container *ngFor="let topic of topics; let i = index">
+                        <div class="mb-6 p-8 rounded-2xl shadow bg-card">
+                            <div (click)="togglePanel(i)" class="cursor-pointer flex items-center justify-between">
+                                <div>
+                                    <h2 class="my-0">Topic: {{topic.Name_T}}</h2>
+                                    <div class="font-semibold text-md text-secondary">
+                                        Materials topics - GRI: {{topic.Materials_topics_GRH}}
+                                    </div>
+                                
+                                </div>
+                                
+                                <ng-container *ngIf="panelOpenState[i]; else closedIcon">
+        
+                                    <!-- Icon for open state -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class=" h-6 w-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                                    </svg>
+        
+        
+                                </ng-container>
+                                <ng-template #closedIcon>
+                                    <!-- Icon for closed state -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" class="h-6 w-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </ng-template>
+        
+                            </div>
+        
+        
+                            <ng-container *ngIf="panelOpenState[i]">
+                                <hr class="mt-6 mb-5">
+        
+                              
+        
+        
+        
+                                <div class="container flex flex-auto overflow-x-auto" >
+                                    <table id="example" class="table-auto w-full">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="px-4 py-2 font-100 text-primary-800 whitespace-nowrap dark:text-white sticky left-0 bg-white z-10">
+                                                    Element
+                                                </th>
+                                                <th *ngIf="topic.ID_Topic !== 2"
+                                                    class=" rounded-tl-lg rounded-tr-lg px-4 py-2 font-100 text-primary-800 whitespace-nowrap dark:text-white">
+                                                    Unit</th>
+                                                <ng-container *ngFor="let date of dates">
+                                                    <th *ngIf="topic.ID_Topic !== 2"
+                                                        class="px-4 py-2 text-primary-800 whitespace-nowrap dark:text-white">{{
+                                                        date.Date }}</th>
+                                                </ng-container>
+                                                <th *ngIf="topic.ID_Topic !== 2"
+                                                    class="px-4 py-2 font-100 text-gray-800 whitespace-nowrap dark:text-white">
+                                                    Total</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <ng-container *ngFor="let element of elements">
+                                                <tr *ngIf="topic.ID_Topic === element.ID_Topic">
+                                                    <td class="border px-4 py-2 font-medium bg-gray-100 whitespace-normal break-words sticky left-0 bg-white z-10 border-b border-t border-l border-r"
+                                                        style="max-width: 600px; min-width: 300px;">
+                                                        {{element.Name_Element}}
+                                                    </td>
+        
+                                                    <td *ngIf="topic.ID_Topic !== 2"
+                                                        class="border px-4 py-2 whitespace-normal break-words">{{element.Unit}}
+                                                    </td>
+                                                    <ng-container *ngFor="let date of dates">
+                                                        <ng-container *ngIf="topic.ID_Topic !== 14">
+                                                            <td *ngIf="topic.ID_Topic !== 2"
+                                                                [attr.contenteditable]="isContentEditable"
+                                                                (blur)="onDataChange($event, element.ID_Element , date.Date)"
+                                                                (input)="displaysave()"
+                                                                style="max-width: 70px; min-width: 70px;">
+                                                                {{ getPerformanceValue(element.Name_Element, date.Date) | number:'1.0-3' }}
+                                                            </td>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                    
+        
+                                                    <td *ngIf="topic.ID_Topic !== 2"
+                                                        class="border font-100 rounded-br-lg px-4 py-2 bg-gray-50 whitespace-normal break-words">
+                                                        {{ total(element.Name_Element) | number:'1.0-3' }}</td>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr *ngIf="topic.ID_Topic !== 14">
+                                                <th
+                                                    class="px-4 py-2 font-100 text-primary-800 whitespace-nowrap dark:text-white sticky left-0 bg-white z-10">
+                                                    Element
+                                                </th>
+                                                <th
+                                                    class="rounded-tl-lg rounded-tr-lg px-4 py-2 font-100 text-primary-800 whitespace-nowrap dark:text-white">
+                                                    Unit</th>
+                                                <ng-container *ngFor="let date of dates">
+                                                    <th class="px-4 py-2 text-gray-800 whitespace-nowrap dark:text-white">{{
+                                                        total2(topic.ID_Topic,date) | number:'1.0-3' }}</th>
+                                                </ng-container>
+                                                <th class="px-4 py-2 font-100 text-gray-800 whitespace-nowrap dark:text-white">
+                                                    Total</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        
+
+    </div>
+   
+
+    <div *ngIf="loadingData"
+        class="fixed top-0 left-40 w-full h-full bg-white opacity-50 z-50 flex justify-center items-center">
+        <div class="absolute top-0 left-[20%] w-[60%] h-full flex justify-center items-center">
+            <div
+                class="grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible bg-white opacity-75">
+                <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                    <path
+                        d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
+                        stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path
+                        d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+                        stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-gray-900">
+                    </path>
+                </svg>{{msg}}
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

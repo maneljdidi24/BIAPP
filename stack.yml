@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  frontend:
+    image: meriembenaouayene24/app:fsercret-latest11
+    ports:
+      - "4200:4200"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    secrets:
+      - flask_secret
+
+  backend:
+    image: meriembenaouayene24/app:bsercret-latest11
+    ports:
+      - "5000:5000"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    secrets:
+      - flask_secret
+
+networks:
+  default:
+    driver: overlay
+
+secrets:
+  flask_secret:
+    external: true

@@ -1,0 +1,8 @@
+FROM mcr.microsoft.com/mssql/server:2019-latest
+
+# Set the SA password
+ENV ACCEPT_EULA=Y \
+    SA_PASSWORD=MEriem2024+-@
+
+# Expose SQL Server port
+EXPOSE 1433

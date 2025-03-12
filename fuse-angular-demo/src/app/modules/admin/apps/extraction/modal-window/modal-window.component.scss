@@ -1,0 +1,32 @@
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Adjust the gap between accordion and button if needed */
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .full-width-button {
+    width: 100%; /* Button takes full width of the container */
+  }
+  
+ 
+  .header {
+    font-size: 20px; /* Adjust the font size as needed */
+    
+    margin-bottom: 10px; /* Add margin at the bottom of the header */
+  }
+  
+  .custom-checkbox {
+    margin-bottom: 10px; /* Add spacing between each checkbox */
+    font-weight: bold; /* Make the font bold */
+    margin-right: 20px; /* Adjust the right margin as needed */
+  }
+  
+ 
+
+  

@@ -1,0 +1,96 @@
+.card-container {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Center horizontally */
+}
+.card-container3 {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Center horizontally */
+}
+.card-container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 1224px; /* Width equal to screen width */
+  height: 400px; /* Height equal to 45% of screen height */
+  margin: 0 auto; /* Center horizontally */
+  margin-top: 0; /* Remove top margin to position at the top */
+}
+
+
+
+  
+.form-field-container {
+  align-items: center;
+  margin-right: 100px; /* Adjust the margin as per your needs */
+}
+
+.smaller-field {
+  width: 100px; /* Adjust as needed */
+}
+  
+  .smaller-font {
+  font-size: 14px; /* Adjust as needed */
+  width: 100px; /* Adjust as needed */
+
+  }
+  
+  button {
+  margin-top: 20px;
+  }
+  
+  /* Additional styles for mat-select */
+  .mat-select {
+  width: 100%;
+  }
+  
+  /* Center options in mat-select */
+  .mat-option {
+  justify-content: center;
+  }
+
+
+  
+  #slider {
+    overflow: hidden;
+  }
+  
+  @keyframes slider {
+    0% { left: 0; }
+    20% { left: 0; }
+    25% { left: -100%; }
+    45% { left: -100%; }
+    50% { left: -200%; }
+    70% { left: -200%; }
+    75% { left: -300%; }
+    95% { left: -300%; }
+    100% { left: 0; }
+  }
+  
+  #slider figure {
+    width: 500%; /* Adjust the width to accommodate 5 images */
+    position: relative;
+    animation: 20s slider infinite; /* Adjust the animation duration as needed */
+  }
+  
+  #slider figure:hover {
+    /*animation-play-state: paused; enable for pause on hover*/
+  }
+  
+  #slider figure img {
+    width: 20%; /* Adjust the width of each image */
+    height: 100%;
+    float: left;
+  }
+  

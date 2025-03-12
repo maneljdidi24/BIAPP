@@ -1,0 +1,2 @@
+# config.py
+cnxnT = None

@@ -1,0 +1,21 @@
+
+services:
+  frontend_qa:
+    build:  # Path to your Angular frontend Dockerfile
+      context: "./fuse-angular-demo"
+      args:
+        ENVIRONMENT: qa
+    environment:
+      - NODE_ENV=qa
+    ports:
+      - "4201:4200"  # Adjust port if necessary for the QA environment
+
+  backend_qa:
+    build:
+      context:  "./flask angular"
+      args:
+        ENVIRONMENT: qa
+    environment:
+      - FLASK_ENV=qa
+    ports:
+      - "5001:5000"  # Adjust port for the backend in QA

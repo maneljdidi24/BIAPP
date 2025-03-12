@@ -1,0 +1,39 @@
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+  
+    <!-- Main -->
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+        <!-- Title -->
+        <div class="mt-4 md:mt-24 text-3xl md:text-6xl font-extrabold tracking-tight leading-7 sm:leading-10 flex text-center">
+            Explore Sustainability Insights & Dashboards
+        </div>
+        
+        <!-- Description -->
+        <div class="mt-2 text-base md:text-lg text-center text-gray-600">
+            Dive into detailed sustainability data or explore our interactive Power BI dashboards. Click to view the performance metrics or analyze visual insights to drive informed decisions.
+        </div>
+        
+        <!-- Boards -->
+        <div class="grid grid-cols-1 items-center sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-8 mt-8 md:mt-16">
+            <a *ngFor="let item of items"
+               [ngClass]="{'cursor-not-allowed opacity-50': item.disabled, 'hover:shadow-2xl': !item.disabled}"
+               class="flex flex-col items-center justify-center sm:w-full md:w-full lg:w-72 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg bg-card transition-shadow duration-150 ease-in-out text-center"
+               (click)="click(item.type)">
+               
+                <!-- Image (Visible on all screens, smaller on small screens) -->
+                <div class="relative flex justify-center items-center w-24 h-24 sm:w-32 sm:h-32">
+                    <img [src]="item.image" [alt]="item.title" class="object-contain w-full h-full">
+                </div>
+                
+                <!-- Title -->
+                <div class="mt-4 text-lg font-semibold leading-6">{{ item.title }}</div>
+                
+                <!-- Description (Hidden on small screens) -->
+                <div class="mt-1 line-clamp-3 text-base text-secondary hidden sm:block">{{ item.description }}</div>
+            </a>
+        </div>
+        
+    </div>
+</div>
+

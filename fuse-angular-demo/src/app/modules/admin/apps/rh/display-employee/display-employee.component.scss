@@ -1,0 +1,77 @@
+  .example-containersxl {
+    height: 80vh;
+    overflow: auto;
+  } 
+  
+
+  table {
+    width: 100%;
+  }
+
+  .mat-header-cell {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #fff; /* Ensure background color matches your design */
+    height: 50px !important;  /* Set header cell height */
+    line-height: 10px !important;  /* Vertically center text */
+    min-width: 120px;
+    max-width: 120px;
+  }
+  
+  .mat-header-row {
+    height: 10px !important; /* Set header row height */
+  }
+
+  .mat-row{
+    height: 10px !important;
+  }
+  
+
+
+  .icon-size-4 {
+    font-size: 16px; /* Adjust as needed for smaller icons */
+}
+
+.mat-form-field-small .mat-form-field-wrapper {
+    padding: 0.5rem 0.5rem; /* Reduce padding */
+}
+
+.mat-form-field-small .mat-form-field-infix {
+    font-size: 0.875rem; /* Small text */
+}
+
+.custom-xs-field {
+  font-size: 0.75rem; /* Tailwind's text-xs */
+  height: auto; /* Override default height */
+}
+
+.custom-xs-field .mat-form-field-wrapper {
+  padding: 0.5rem 0; /* Adjust padding */
+}
+
+.custom-xs-field .mat-select-trigger {
+  font-size: 0.75rem; /* Match text-xs */
+  min-height: auto; /* Override internal height */
+}
+
+.custom-xs-field .mat-option {
+  font-size: 0.75rem; /* Ensure options match text-xs */
+}
+
+
+.custom-height .mat-form-field-infix {
+  height: 10px !important; /* Force the height of the input field */
+}
+
+.custom-height .mat-select-trigger,
+.custom-height mat-select .mat-select-arrow {
+  padding: 0 !important; /* Remove padding inside the select trigger */
+  height: 10px !important; /* Ensure the height of the select box matches */
+}
+
+.custom-height .mat-icon {
+  height: 10px !important;
+  width: 10px !important;
+}

@@ -1,0 +1,68 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500" [routerLink]="['./']" >Detailed reports</a>
+              </div>
+              <div class="flex items-center ml-1 whitespace-nowrap">
+                  <mat-icon
+                      class="icon-size-5 text-secondary"
+                      [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                  
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-2">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+              Explore Detailed Reports
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+              Select a project to access comprehensive reports and glean valuable insights into COFICABs business operations.
+            </p>
+          </div>
+          
+      </div>
+  </div>
+
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+
+
+   
+
+      <div class="flex flex-wrap justify-center">
+<!-- Card #40 - Sales Reports Card -->
+
+
+   <!-- Display enabled cards -->
+  <ng-container *ngFor="let card of cards">
+    <div *ngIf="!card.disabled">
+      <app-report-app-card
+        [title]="card.title"
+        [description]="card.description"
+        [icon]="card.icon"
+        [disabled]="card.disabled"
+        (buttonClicked)="onButtonClicked(card)">
+      </app-report-app-card>
+    </div>
+  </ng-container>
+
+  <ng-container *ngFor="let card of cards">
+    <div *ngIf="card.disabled">
+      <app-report-app-card
+        [title]="card.title"
+        [description]="card.description"
+        [icon]="card.icon"
+        [disabled]="card.disabled"
+        (buttonClicked)="onButtonClicked(card)">
+      </app-report-app-card>
+    </div>
+  </ng-container> 
+
+
+
